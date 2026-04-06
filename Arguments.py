@@ -1,3 +1,5 @@
+from model import ModelArgs
+
 args = ModelArgs(
         d_model=128,          # Dimension of the model
         n_layer=2,            # Number of C-Mamba blocks
@@ -15,5 +17,5 @@ args = ModelArgs(
         bias=False,           # Whether to use bias in linear layers
         sigma=0.1,            # Standard deviation for channel mixup
         reduction_ratio=2,    # Reduction ratio for channel attention
-        verbose=True         # Whether to make the model print analytically the tensor shapes changes 
+        verbose=False         # Whether to make the model print analytically the tensor shapes changes 
 )
