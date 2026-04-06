@@ -2,7 +2,7 @@ import copy
 import torch
 import torch.nn as nn
 import torch.optim as optim
-
+import matplotlib.pyplot as plt
 from preprocessing import create_dataloaders_from_csv
 from model import CMamba
 from arguments import args
@@ -80,4 +80,20 @@ for epoch in range(epochs):
 
 model.load_state_dict(best_model_wts)
 print(f"Best model restored (val loss = {best_val_loss:.4f})")
+
+# Plot validation vs training loss
+
+epochs_range = range(1, len(train_losses) + 1)
+
+plt.figure(figsize=(8, 5))
+plt.plot(epochs_range, train_losses, label="Training Loss", linewidth=2)
+plt.plot(epochs_range, val_losses, label="Validation Loss", linewidth=2)
+
+plt.xlabel("Epoch")
+plt.ylabel("Loss")
+plt.title("Training vs Validation Loss")
+plt.legend()
+plt.grid(True)
+
+plt.show()
 
