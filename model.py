@@ -82,43 +82,43 @@ class ChannelAttention(nn.Module):
     def forward(self, x):
 
         avg_pool_out = self.avg_pool(x)
-        print("avg_pool output shape:", avg_pool_out.shape) #(B, d_model, 1)
+        #print("avg_pool output shape:", avg_pool_out.shape) #(B, d_model, 1)
 
         avg_pool_out = avg_pool_out.squeeze(-1)
-        print("avg_pool squeezed shape:", avg_pool_out.shape) #(B, d_model)
+        #print("avg_pool squeezed shape:", avg_pool_out.shape) #(B, d_model)
 
         avg_fc1 = self.fc1(avg_pool_out)
-        print("avg fc1 output shape:", avg_fc1.shape) #(B, d_model/2)
+        #print("avg fc1 output shape:", avg_fc1.shape) #(B, d_model/2)
 
         avg_relu = self.relu(avg_fc1)
-        print("avg relu output shape:", avg_relu.shape) #(B, d_model/2)
+        #print("avg relu output shape:", avg_relu.shape) #(B, d_model/2)
 
         avg_out = self.fc2(avg_relu)
-        print("avg fc2 output shape:", avg_out.shape) #(B, d_model)
+        #print("avg fc2 output shape:", avg_out.shape) #(B, d_model)
 
         max_pool_out = self.max_pool(x)
-        print("max_pool output shape:", max_pool_out.shape) #(B, d_model, 1)
+        #print("max_pool output shape:", max_pool_out.shape) #(B, d_model, 1)
 
         max_pool_out = max_pool_out.squeeze(-1)
-        print("max_pool squeezed shape:", max_pool_out.shape) #(B, d_model)
+        #print("max_pool squeezed shape:", max_pool_out.shape) #(B, d_model)
 
         max_fc1 = self.fc1(max_pool_out)
-        print("max fc1 output shape:", max_fc1.shape) #(B, d_model/2)
+        #print("max fc1 output shape:", max_fc1.shape) #(B, d_model/2)
 
         max_relu = self.relu(max_fc1)
-        print("max relu output shape:", max_relu.shape) #(B, d_model/2)
+        #print("max relu output shape:", max_relu.shape) #(B, d_model/2)
 
         max_out = self.fc2(max_relu)
-        print("max fc2 output shape:", max_out.shape) #(B, d_model)
+        #print("max fc2 output shape:", max_out.shape) #(B, d_model)
 
         out = avg_out + max_out
-        print("sum shape:", out.shape) #(B, d_model)
+        #print("sum shape:", out.shape) #(B, d_model)
 
         out = self.sigmoid(out)
-        print("sigmoid output shape:", out.shape) #(B, d_model)
+        #print("sigmoid output shape:", out.shape) #(B, d_model)
 
         out = out.unsqueeze(-1)
-        print("final output shape:", out.shape) #(B, d_model, 1)
+        #print("final output shape:", out.shape) #(B, d_model, 1)
 
         return out
 
@@ -244,12 +244,12 @@ class MambaBlock(nn.Module):
 
     def forward(self, x):
         (b, l, d) = x.shape
-        print("Mamba block input shape: ", x.shape)        #(B, num_patches, d_model)
+        #print("Mamba block input shape: ", x.shape)        #(B, num_patches, d_model)
         
         x_and_res = self.in_proj(x)
         (x, res) = x_and_res.split(split_size=[self.args.d_inner, self.args.d_inner], dim=-1)
-        print("Mamba block split shape x: ", x.shape)      #(B, num_patches, d_inner)
-        print("Mamba block split shape res: ", res.shape)  #(B, num_patches, d_inner)
+        #print("Mamba block split shape x: ", x.shape)      #(B, num_patches, d_inner)
+        #print("Mamba block split shape res: ", res.shape)  #(B, num_patches, d_inner)
 
         x = rearrange(x, 'b l d_in -> b d_in l')
         x = self.conv1d(x)[:, :, :l]
@@ -262,7 +262,7 @@ class MambaBlock(nn.Module):
         y = y * F.silu(res)
         
         output = self.out_proj(y)
-        print("Mamba block output shape: ", output.shape)
+        #print("Mamba block output shape: ", output.shape)
 
         return output
 
@@ -278,7 +278,7 @@ class MambaBlock(nn.Module):
     
         """
         (d_in, n) = self.A_log.shape
-        print("SSM A_log shape: ", self.A_log.shape)  #(d_inner, d_state)
+        #print("SSM A_log shape: ", self.A_log.shape)  #(d_inner, d_state)
 
         # Compute ∆ A B C D, the state space parameters.
         #     A, D are input independent 
@@ -287,22 +287,22 @@ class MambaBlock(nn.Module):
         A = -torch.exp(self.A_log.float())  #(d_inner, d_state)
         D = self.D.float()
 
-        print("SSM A shape: ", A.shape)  #(d_inner, d_state)
-        print("SSM D shape: ", D.shape)  #(d_inner) 
+        #print("SSM A shape: ", A.shape)  #(d_inner, d_state)
+        #print("SSM D shape: ", D.shape)  #(d_inner) 
 
         x_dbl = self.x_proj(x)   
-        print("SSM x_dbl shape: ", x_dbl.shape)   #(B, num_patches, dt_rank + 2*(d_state))
+        #print("SSM x_dbl shape: ", x_dbl.shape)   #(B, num_patches, dt_rank + 2*(d_state))
         
         (delta, B, C) = x_dbl.split(split_size=[self.args.dt_rank, n, n], dim=-1)  # delta: (b, num_patches, dt_rank). B, C: (b, num_patches, d_state)
-        print("SSM delta shape: ", delta.shape)  #(B, num_patches, dt_rank)
-        print("SSM B shape: ", B.shape)   #(B, num_patches, d_state)
-        print("SSM C shape: ", C.shape)   #(B, num_patches, d_state)
+        #print("SSM delta shape: ", delta.shape)  #(B, num_patches, dt_rank)
+        #print("SSM B shape: ", B.shape)   #(B, num_patches, d_state)
+        #print("SSM C shape: ", C.shape)   #(B, num_patches, d_state)
 
         delta = F.softplus(self.dt_proj(delta)) 
-        print("SSM delta shape after softplus: ", delta.shape)  #(B, num_patches, d_inner)
+        #print("SSM delta shape after softplus: ", delta.shape)  #(B, num_patches, d_inner)
         
         y = self.selective_scan(x, delta, A, B, C, D)
-        print("SSM output shape: ", y.shape)  #(b, num_patches, d_inner)
+        #print("SSM output shape: ", y.shape)  #(b, num_patches, d_inner)
 
         
         return y
@@ -310,32 +310,32 @@ class MambaBlock(nn.Module):
     
     def selective_scan(self, u, delta, A, B, C, D):
         (b, l, d_in) = u.shape
-        print("Selective scan input shape: ", u.shape)  #(B, num_patches, d_inner)
+        #print("Selective scan input shape: ", u.shape)  #(B, num_patches, d_inner)
 
         n = A.shape[1]
-        print("Selective scan A shape: ", A.shape)  #(d_inner, d_state)
+        #print("Selective scan A shape: ", A.shape)  #(d_inner, d_state)
         
         # Discretize continuous parameters (A, B)
         # - A is discretized using zero-order hold (ZOH) discretization.
         # - B is discretized using a simplified Euler discretization instead of ZOH. 
         deltaA = torch.exp(einsum(delta, A, 'b l d_in, d_in n -> b l d_in n'))
         deltaB_u = einsum(delta, B, u, 'b l d_in, b l n, b l d_in -> b l d_in n')
-        print("Selective scan deltaA shape: ", deltaA.shape) #(B, num_patches, d_inner, d_state)
-        print("Selective scan deltaB_u shape: ", deltaB_u.shape) #(B, num_patches, d_inner, d_state)
+        #print("Selective scan deltaA shape: ", deltaA.shape) #(B, num_patches, d_inner, d_state)
+        #print("Selective scan deltaB_u shape: ", deltaB_u.shape) #(B, num_patches, d_inner, d_state)
         
         
         x = torch.zeros((b, d_in, n), device=deltaA.device)
-        print("Selective scan x shape: ", x.shape)  #(B, d_inner, d_state)
+        #print("Selective scan x shape: ", x.shape)  #(B, d_inner, d_state)
         ys = []    
         for i in range(l):
             x = deltaA[:, i] * x + deltaB_u[:, i]
             y = einsum(x, C[:, i, :], 'b d_in n, b n -> b d_in')
             ys.append(y)
         y = torch.stack(ys, dim=1)  
-        print("Selective scan output shape: ", y.shape) #(b, num_patches, d_inner)
+        #print("Selective scan output shape: ", y.shape) #(b, num_patches, d_inner)
         
         y = y + u * D
-        print("Selective scan output shape after D: ", y.shape) #(b, num_patches, d_inner)
+        #print("Selective scan output shape after D: ", y.shape) #(b, num_patches, d_inner)
     
         return y
 
