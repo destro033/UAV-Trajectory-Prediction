@@ -5,7 +5,8 @@ import torch.optim as optim
 from data_preprocessing import create_dataloaders_from_csv
 from model import CMamba
 from arguments import args
-
+import pandas as pd
+import joblib
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("Using:", device)
@@ -79,3 +80,23 @@ for epoch in range(epochs):
 
 model.load_state_dict(best_model_wts)
 print(f"Best model restored (val loss = {best_val_loss:.4f})")
+
+#save the weights of the best model
+torch.save(model.state_dict(), "cmamba_best_model.pth")
+print("Model weights saved to cmamba_best_model.pth")
+
+#save scaler
+joblib.dump(scaler, "scaler.pkl")
+print("Scaler saved to scaler.pkl")
+
+#save losses into a csv file
+results_df = pd.DataFrame({
+    "epoch": list(range(1, len(train_losses) + 1)),
+    "train_loss": train_losses,
+    "val_loss": val_losses,
+    "best_val_loss": [best_val_loss] * len(train_losses)  # repeated value
+})
+
+results_df.to_csv("training_results_mamba.csv", index=False)
+
+print("Results saved to training_results_mamba.csv")
