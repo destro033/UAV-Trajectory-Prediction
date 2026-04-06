@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import matplotlib.pyplot as plt
-from preprocessing import create_dataloaders_from_csv
+from data_preprocessing import create_dataloaders_from_csv
 from model import CMamba
 from arguments import args
 
