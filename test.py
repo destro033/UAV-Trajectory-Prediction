@@ -18,11 +18,10 @@ from evaluation import (
 )
 
 # =========================
-# User settings
+# CHANGE THESE IF NEEDED
 # =========================
 CSV_PATH = "Drone Onboard Multi-Modal Feature-Based Visual Odometry Dataset.csv"
-ARGS_PATH = "model_args.pth"
-WEIGHTS_PATH = "cmamba_best_model.pth"
+WEIGHTS_PATH = "weights.pth"
 SCALER_PATH = "scaler.pkl"
 
 INPUT_LENGTH = 96
@@ -106,11 +105,22 @@ error_18 = compute_euclidean_error_per_timestep(
 plot_error_vs_forecast(error_17, error_18)
 
 # =========================
-# 3D trajectory
+# 3D trajectory - Flight 17
 # =========================
-y_pred_real, y_true_real = get_trajectory_for_plot(
-    model, df, TRAJECTORY_FLIGHT, feature_cols, scaler, device,
+y_pred_17, y_true_17 = get_trajectory_for_plot(
+    model, df, FLIGHT_1, feature_cols, scaler, device,
     input_length=INPUT_LENGTH, forecast_length=FORECAST_LENGTH, batch_size=BATCH_SIZE
 )
 
-plot_3d_trajectory(y_pred_real, y_true_real, forecast_step=0)
+plot_3d_trajectory(y_pred_17, y_true_17, forecast_step=0)
+
+
+# =========================
+# 3D trajectory - Flight 18
+# =========================
+y_pred_18, y_true_18 = get_trajectory_for_plot(
+    model, df, FLIGHT_2, feature_cols, scaler, device,
+    input_length=INPUT_LENGTH, forecast_length=FORECAST_LENGTH, batch_size=BATCH_SIZE
+)
+
+plot_3d_trajectory(y_pred_18, y_true_18, forecast_step=0)
