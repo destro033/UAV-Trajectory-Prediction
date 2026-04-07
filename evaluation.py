@@ -11,7 +11,15 @@ def load_test_dataframe(csv_path, sep=";"):
     return pd.read_csv(csv_path, sep=sep)
 
 
-def prepare_flight_loader(df, flight_id, feature_cols, scaler, input_length=96, forecast_length=96, batch_size=32):
+def prepare_flight_loader(
+    df,
+    flight_id,
+    feature_cols,
+    scaler,
+    input_length=96,
+    forecast_length=96,
+    batch_size=32
+):
     data_raw = df.loc[df["uid"] == flight_id, feature_cols].values
     data_scaled = scaler.transform(data_raw)
 
@@ -53,7 +61,17 @@ def inverse_scale_predictions(y_pred, y_true, scaler):
     return y_pred_real, y_true_real
 
 
-def compute_mae_for_flight(model, df, flight_id, feature_cols, scaler, device, input_length=96, forecast_length=96, batch_size=32):
+def compute_mae_for_flight(
+    model,
+    df,
+    flight_id,
+    feature_cols,
+    scaler,
+    device,
+    input_length=96,
+    forecast_length=96,
+    batch_size=32
+):
     loader = prepare_flight_loader(
         df, flight_id, feature_cols, scaler, input_length, forecast_length, batch_size
     )
@@ -74,7 +92,17 @@ def compute_mae_for_flight(model, df, flight_id, feature_cols, scaler, device, i
     return mae_meters
 
 
-def compute_ade_for_flight(model, df, flight_id, feature_cols, scaler, device, input_length=96, forecast_length=96, batch_size=32):
+def compute_ade_for_flight(
+    model,
+    df,
+    flight_id,
+    feature_cols,
+    scaler,
+    device,
+    input_length=96,
+    forecast_length=96,
+    batch_size=32
+):
     loader = prepare_flight_loader(
         df, flight_id, feature_cols, scaler, input_length, forecast_length, batch_size
     )
@@ -94,7 +122,17 @@ def compute_ade_for_flight(model, df, flight_id, feature_cols, scaler, device, i
     return ade_first
 
 
-def compute_euclidean_error_per_timestep(model, df, flight_id, feature_cols, scaler, device, input_length=96, forecast_length=96, batch_size=32):
+def compute_euclidean_error_per_timestep(
+    model,
+    df,
+    flight_id,
+    feature_cols,
+    scaler,
+    device,
+    input_length=96,
+    forecast_length=96,
+    batch_size=32
+):
     loader = prepare_flight_loader(
         df, flight_id, feature_cols, scaler, input_length, forecast_length, batch_size
     )
@@ -114,7 +152,17 @@ def compute_euclidean_error_per_timestep(model, df, flight_id, feature_cols, sca
     return errors_per_timestep
 
 
-def get_trajectory_for_plot(model, df, flight_id, feature_cols, scaler, device, input_length=96, forecast_length=96, batch_size=32):
+def get_trajectory_for_plot(
+    model,
+    df,
+    flight_id,
+    feature_cols,
+    scaler,
+    device,
+    input_length=96,
+    forecast_length=96,
+    batch_size=32
+):
     loader = prepare_flight_loader(
         df, flight_id, feature_cols, scaler, input_length, forecast_length, batch_size
     )
@@ -130,8 +178,8 @@ def plot_mae_bars(mae_17, mae_18):
     width = 0.35
 
     fig, ax = plt.subplots(figsize=(9, 4))
-    bars1 = ax.bar(x - width/2, mae_17, width, label='Complicated Flight', color = 'blue')
-    bars2 = ax.bar(x + width/2, mae_18, width, label='Simple Flight', color = 'red')
+    bars1 = ax.bar(x - width / 2, mae_17, width, label='Complicated Flight', color='blue')
+    bars2 = ax.bar(x + width / 2, mae_18, width, label='Simple Flight', color='red')
 
     ax.set_ylabel('MAE (meters)')
     ax.set_xticks(x)
@@ -159,20 +207,20 @@ def plot_mae_bars(mae_17, mae_18):
     autolabel(bars2)
 
     plt.tight_layout()
-    plt.show()
+    return fig, ax
 
 
 def plot_ade_bars(ade_17, ade_18):
     flights = ['Complicated Flight', 'Simple Flight']
     ade_values = [ade_17, ade_18]
 
-    plt.figure(figsize=(6, 5))
-    bars = plt.bar(flights, ade_values, color=['blue','red'])
+    fig, ax = plt.subplots(figsize=(6, 5))
+    bars = ax.bar(flights, ade_values, color=['blue', 'red'])
 
     for bar in bars:
         height = bar.get_height()
-        plt.text(
-            bar.get_x() + bar.get_width()/2,
+        ax.text(
+            bar.get_x() + bar.get_width() / 2,
             height + 0.05,
             f'{height:.2f}',
             ha='center',
@@ -180,22 +228,24 @@ def plot_ade_bars(ade_17, ade_18):
             fontsize=10
         )
 
-    plt.ylabel('Euclidean distance (meters)')
-    plt.grid(axis='y', alpha=0.3)
-    plt.show()
+    ax.set_ylabel('Euclidean distance (meters)')
+    ax.grid(axis='y', alpha=0.3)
+    plt.tight_layout()
+    return fig, ax
 
 
 def plot_error_vs_forecast(error_17, error_18):
     forecast_steps = np.arange(1, len(error_17) + 1)
 
-    plt.figure(figsize=(9, 4))
-    plt.plot(forecast_steps, error_17, label='Complicated Flight', color = 'blue')
-    plt.plot(forecast_steps, error_18, label='Simple Flight', color = 'red')
-    plt.xlabel('Forecast Step')
-    plt.ylabel('Euclidean Error (meters)')
-    plt.legend()
-    plt.grid(alpha=0.3)
-    plt.show()
+    fig, ax = plt.subplots(figsize=(9, 4))
+    ax.plot(forecast_steps, error_17, label='Complicated Flight', color='blue')
+    ax.plot(forecast_steps, error_18, label='Simple Flight', color='red')
+    ax.set_xlabel('Forecast Step')
+    ax.set_ylabel('Euclidean Error (meters)')
+    ax.legend()
+    ax.grid(alpha=0.3)
+    plt.tight_layout()
+    return fig, ax
 
 
 def plot_3d_trajectory(y_pred_real, y_true_real, forecast_step=0):
@@ -230,4 +280,4 @@ def plot_3d_trajectory(y_pred_real, y_true_real, forecast_step=0):
 
     plt.subplots_adjust(right=0.85)
     plt.tight_layout()
-    plt.show()
+    return fig, ax
