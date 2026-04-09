@@ -11,6 +11,8 @@ import joblib
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("Using:", device)
 
+configs = Config()
+
 train_loader, val_loader, scaler = create_dataloaders_from_csv(
     csv_path="Drone Onboard Multi-Modal Feature-Based Visual Odometry Dataset.csv",
     input_length=configs.seq_len,
@@ -20,8 +22,6 @@ train_loader, val_loader, scaler = create_dataloaders_from_csv(
 
 train_losses = []
 val_losses = []
-
-configs = Config()
 
 model = Model(configs).to(device)
 criterion = nn.MSELoss()
