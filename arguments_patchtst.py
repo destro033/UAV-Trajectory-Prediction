@@ -3,10 +3,10 @@ class Config:
     seq_len = 96
     pred_len = 96
     enc_in = 3   # number of variables
-    d_model = 512
-    n_heads = 8
+    d_model = 128
+    n_heads = 4
     e_layers = 2
-    d_ff = 2048
+    d_ff = 512
     dropout = 0.1
     factor = 1
     activation = "gelu"
