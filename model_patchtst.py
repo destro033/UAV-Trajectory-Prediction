@@ -1,5 +1,6 @@
 import torch
 from torch import nn
+import math
 
 class TriangularCausalMask():
     def __init__(self, B, L, device="cpu"):
