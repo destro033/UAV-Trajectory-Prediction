@@ -2,6 +2,7 @@ import torch
 from torch import nn
 import math
 import torch.nn.functional as F
+from math import sqrt
 
 class TriangularCausalMask():
     def __init__(self, B, L, device="cpu"):
