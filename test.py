@@ -2,8 +2,8 @@ import joblib
 import torch
 import matplotlib.pyplot as plt
 
-from model import CMamba
-from arguments import args
+from model import Model
+from arguments import Config
 from evaluation import (
     load_test_dataframe,
     compute_mae_for_flight,
@@ -20,8 +20,8 @@ from evaluation import (
 # CHANGE THESE IF NEEDED
 # =========================
 CSV_PATH = "Drone Onboard Multi-Modal Feature-Based Visual Odometry Dataset.csv"
-WEIGHTS_PATH = "weights.pth"
-SCALER_PATH = "scaler.pkl"
+WEIGHTS_PATH = "mamba_best_model.pth"
+SCALER_PATH = "scaler_mamba.pkl"
 
 INPUT_LENGTH = 96
 FORECAST_LENGTH = 96
@@ -45,7 +45,8 @@ feature_cols = ['position_x', 'position_y', 'position_z']
 # =========================
 # Load model
 # =========================
-model = CMamba(args).to(device)
+configs = Config()
+model = Model(configs).to(device)
 model.load_state_dict(torch.load(WEIGHTS_PATH, map_location=device))
 model.eval()
 
