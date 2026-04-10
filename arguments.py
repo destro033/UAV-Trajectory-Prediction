@@ -27,4 +27,4 @@ class Config:
     c_out = 3
     reduction = 2
     gddmlp = True
-    
+    pscan = False
