@@ -2,9 +2,9 @@ import copy
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from data_preprocessing_patchtst import create_dataloaders_from_csv
-from model import Model
-from arguments import Config
+from data_preprocessing import create_dataloaders_from_csv
+from model_patchtst import Model
+from arguments_patchtst import Config
 import pandas as pd
 import joblib
 
