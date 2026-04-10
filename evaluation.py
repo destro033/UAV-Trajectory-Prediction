@@ -4,7 +4,7 @@ import torch
 import matplotlib.pyplot as plt
 from torch.utils.data import DataLoader
 
-from data_preprocessing_patchtst import TimeSeriesDataset
+from data_preprocessing import TimeSeriesDataset
 
 
 def load_test_dataframe(csv_path, sep=";"):
