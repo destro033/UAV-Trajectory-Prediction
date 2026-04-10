@@ -28,3 +28,5 @@ class Config:
     reduction = 2
     gddmlp = True
     pscan = False
+    sigma = 0.1
+    use_channel_mixup = True
