@@ -58,8 +58,8 @@ for epoch in range(epochs):
         X_batch, y_batch = X_batch.to(device), y_batch.to(device)
 
         if configs.use_channel_mixup:
-            X_batch = channel_mixup(X_batch, configs.sigma=sigma)
-            y_batch = channel_mixup(y_batch, configs.sigma=sigma)
+            X_batch = channel_mixup(X_batch, sigma=configs.sigma)
+            y_batch = channel_mixup(y_batch, sigma=configs.sigma)
 
         optimizer.zero_grad()
         output = model(X_batch, None, None, None)
