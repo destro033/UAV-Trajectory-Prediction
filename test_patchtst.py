@@ -1,8 +1,8 @@
 import joblib
 import torch
 
-from model import Model
-from arguments import Config
+from model_patchtst import Model
+from arguments_patchtst import Config
 from evaluation import (
     load_test_dataframe,
     evaluate_flights_full
