@@ -17,7 +17,7 @@ train_loader, val_loader, scaler = create_dataloaders_from_csv(
     csv_path="Drone Onboard Multi-Modal Feature-Based Visual Odometry Dataset.csv",
     input_length=configs.seq_len,
     forecast_length=configs.pred_len,
-    batch_size=32
+    batch_size=configs.batch_size
 )
 
 train_losses = []
@@ -25,10 +25,10 @@ val_losses = []
 
 model = Model(configs).to(device)
 criterion = nn.MSELoss()
-optimizer = optim.Adam(model.parameters(), lr=0.0001)
-epochs = 200
+optimizer = optim.Adam(model.parameters(), lr=configs.lr)
+epochs = configs.epochs
 
-patience = 20
+patience = configs.patience
 best_val_loss = float('inf')
 epochs_no_improve = 0
 best_model_wts = copy.deepcopy(model.state_dict())
