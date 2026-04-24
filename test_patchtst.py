@@ -14,9 +14,11 @@ CSV_PATH = "Drone Onboard Multi-Modal Feature-Based Visual Odometry Dataset.csv"
 WEIGHTS_PATH = "patchtst_best_model.pth"
 SCALER_PATH = "scaler_patchtst.pkl"
 
-INPUT_LENGTH = 96
-FORECAST_LENGTH = 96
-BATCH_SIZE = 32
+configs = Config()
+
+INPUT_LENGTH = configs.seq_len
+FORECAST_LENGTH = configs.pred_len
+BATCH_SIZE = configs.batch_size
 
 FLIGHT_1 = 17
 FLIGHT_2 = 18
@@ -32,7 +34,6 @@ df = load_test_dataframe(CSV_PATH, sep=";")
 feature_cols = ['position_x', 'position_y', 'position_z']
 
 # Load model
-configs = Config()
 model = Model(configs).to(device)
 model.load_state_dict(torch.load(WEIGHTS_PATH, map_location=device))
 model.eval()
