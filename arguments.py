@@ -30,3 +30,9 @@ class Config:
     pscan = True
     sigma = 0.1
     use_channel_mixup = True
+
+    #training settings 
+    batch_size = 32
+    epochs = 200
+    patience = 20
+    
