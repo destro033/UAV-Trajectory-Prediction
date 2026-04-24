@@ -16,8 +16,8 @@ SCALER_PATH = "scaler_mamba.pkl"
 
 configs = Config()
 
-INPUT_LENGTH = configs.
-FORECAST_LENGTH = configs.
+INPUT_LENGTH = configs.seq_len
+FORECAST_LENGTH = configs.pred_len
 BATCH_SIZE = configs.batch_size
 
 FLIGHT_1 = 17
