@@ -35,4 +35,5 @@ class Config:
     batch_size = 32
     epochs = 200
     patience = 20
+    lr = 0.0001
     
