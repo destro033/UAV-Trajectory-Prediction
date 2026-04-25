@@ -106,6 +106,9 @@ def evaluate_flights_full(
     # Euclidean error for first forecast step
     ade_first_step = euclidean_errors[:, 0].mean()
 
+    # Euclidean error for last forecast step
+    ade_last_step = euclidean_errors[:, -1].mean()
+
     # ADE over all forecast steps
     ade_96 = euclidean_errors.mean()
 
@@ -117,6 +120,7 @@ def evaluate_flights_full(
         save_path,
         mae_xyz=mae_xyz,
         ade_first_step=ade_first_step,
+        ade_last_step=ade_last_step,
         ade_96=ade_96,
         error_per_forecast_step=error_per_forecast_step,
         euclidean_errors=euclidean_errors,
