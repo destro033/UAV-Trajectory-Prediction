@@ -23,7 +23,7 @@ pip install torch pandas numpy matplotlib scikit-learn joblib
 
 ## Training Procedure
 
- **Note:** If you want to train the models, delete any existing `.pth` and `.pkl` files (which already exist in this repo) beforehand, as they will be overwritten during training.
+ **Note:** If you want to train the models, delete any existing `.pth` and `.pkl` files (which already exist in this repo) beforehand, as they will be overwritten after training.
 
 The training procedure is as follows:
 
