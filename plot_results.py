@@ -169,6 +169,9 @@ def plot_3d_flight(
     fig = plt.figure(figsize=(10, 8))
     ax = fig.add_subplot(111, projection="3d")
 
+    # shrink plot area to make room for Z label
+    ax.set_position([0.05, 0.05, 0.75, 0.9])
+
     x_idx, y_idx, z_idx = 0, 1, 2
 
     ax.plot(
@@ -209,6 +212,8 @@ def plot_3d_flight(
     ax.set_title(f"3D Trajectory Comparison - Flight {flight_id}")
     ax.legend()
 
+    ax.set_box_aspect(None, zoom=0.85)
+    
     plt.tight_layout()
     plt.savefig(f"trajectory_flight_{flight_id}.pdf", bbox_inches="tight")
 
