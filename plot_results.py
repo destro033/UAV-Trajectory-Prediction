@@ -7,8 +7,8 @@ from matplotlib.ticker import MaxNLocator
 MODEL_A_PATH = "cmamba_results.npz"
 MODEL_B_PATH = "patchtst_results.npz"
 
-MODEL_A_NAME = "cmamba"
-MODEL_B_NAME = "patchtst"
+MODEL_A_NAME = "C-Mamba"
+MODEL_B_NAME = "PatchTST"
 
 
 # =========================
@@ -17,8 +17,6 @@ MODEL_B_NAME = "patchtst"
 a = np.load(MODEL_A_PATH)
 b = np.load(MODEL_B_PATH)
 
-mae_a = a["mae_xyz"]
-mae_b = b["mae_xyz"]
 
 error_a = a["error_per_forecast_step"]
 error_b = b["error_per_forecast_step"]
@@ -44,6 +42,8 @@ ade_b = [
     b["ade_last_step"]
 ]
 
+
+# Euclidean errors
 labels = ["First", "Average (ADE)", "Final (FDE)"]
 x = np.arange(len(labels))
 width = 0.35
@@ -77,48 +77,7 @@ plt.tight_layout()
 plt.savefig("ade_fde_comparison.pdf", bbox_inches="tight")
 
 
-
-
-
-# =========================
-# 1. MAE X/Y/Z comparison
-# =========================
-labels = ["X", "Y", "Z"]
-x = np.arange(len(labels))
-width = 0.35
-
-plt.figure(figsize=(7, 4))
-
-bars_a = plt.bar(x - width / 2, mae_a, width, label=MODEL_A_NAME)
-bars_b = plt.bar(x + width / 2, mae_b, width, label=MODEL_B_NAME)
-
-def add_bar_labels(bars):
-    for bar in bars:
-        height = bar.get_height()
-        plt.text(
-            bar.get_x() + bar.get_width() / 2,
-            height,
-            f"{height:.2f}",
-            ha="center",
-            va="bottom",
-            fontsize=9
-        )
-
-add_bar_labels(bars_a)
-add_bar_labels(bars_b)
-
-plt.xticks(x, labels)
-plt.ylabel("MAE (m)")
-plt.title("MAE Comparison")
-plt.legend()
-plt.grid(axis="y", alpha=0.3)
-plt.tight_layout()
-plt.savefig("mae_comparison.pdf", bbox_inches="tight")
-
-
-# =========================
-# 2. Euclidean error over forecast steps
-# =========================
+#Euclidean error over forecast steps
 steps = np.arange(1, len(error_a) + 1)
 
 plt.figure(figsize=(8, 4))
@@ -134,9 +93,8 @@ plt.tight_layout()
 plt.savefig("euclidean_error_curve.pdf", bbox_inches="tight")
 
 
-# =========================
+
 # Helper: split flights
-# =========================
 def split_by_flight(array, counts):
     flights = []
     start = 0
@@ -156,9 +114,9 @@ pred_b_flights = split_by_flight(pred_b, counts)
 gt_b_flights = split_by_flight(gt_b, counts)
 
 
-# =========================
-# 3. 3D trajectory plots
-# =========================
+
+# 3D trajectory plots
+
 def plot_3d_flight(
     gt,
     pred_model_a,
@@ -201,15 +159,15 @@ def plot_3d_flight(
     ax.yaxis.set_major_locator(MaxNLocator(4))
     ax.zaxis.set_major_locator(MaxNLocator(4))
 
-    # disable scientific notation and offset like +3.3e1
+    
     ax.ticklabel_format(axis="x", style="plain", useOffset=False)
     ax.ticklabel_format(axis="y", style="plain", useOffset=False)
     ax.ticklabel_format(axis="z", style="plain", useOffset=False)
 
-    ax.set_xlabel("X")
-    ax.set_ylabel("Y")
-    ax.set_zlabel("Z")
-    ax.set_title(f"3D Trajectory Comparison - Flight {flight_id}")
+    ax.set_xlabel("X(deg)", labelpad = 10)
+    ax.set_ylabel("Y(deg)", labelpad =10)
+    ax.set_zlabel("Z(m)", labelpad =10)
+    ax.set_title(f"3D Trajectory Comparison")
     ax.legend()
 
     ax.set_box_aspect(None, zoom=0.85)
