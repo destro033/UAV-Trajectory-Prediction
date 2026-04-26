@@ -10,8 +10,6 @@ class Config:
     dropout = 0.1  
     factor = 1      #attention factor
     activation = "gelu" #activation function
-    patch_len = 16  #patch length
-    stride = 8      #window for patching
 
     #training settings 
     batch_size = 32
