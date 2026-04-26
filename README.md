@@ -22,7 +22,8 @@ pip install torch pandas numpy matplotlib scikit-learn joblib
 ```
 
 ## Training Procedure
-## Training Procedure
+
+ **Note:** If you want to train the models, delete any existing `.pth` and `.pkl` files (which exist already in this repo) beforehand, as they will be overwritten during training.
 
 1. Download the repository and extract all files into a single folder.
 
@@ -49,8 +50,6 @@ pip install torch pandas numpy matplotlib scikit-learn joblib
    These files contain the trained model weights and corresponding data scalers.
 
 6. CSV files containing training and validation losses for each epoch will also be generated.
-
- **Note:** If you want to train the models, delete any existing `.pth` and `.pkl` files (which exist already in this repo) beforehand, as they will be overwritten during training.
 
 ## Testing Procedure and Plotting
 
