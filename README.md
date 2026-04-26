@@ -50,7 +50,7 @@ pip install torch pandas numpy matplotlib scikit-learn joblib
 
 6. CSV files containing training and validation losses for each epoch will also be generated.
 
-7. If you want to retrain the models, delete any existing `.pth` and `.pkl` files beforehand, as they will be overwritten during training.
+> ⚠️ **Note:** If you want to retrain the models, delete any existing `.pth` and `.pkl` files beforehand, as they will be overwritten during training.
 
 ## Testing Procedure and Plotting
 
