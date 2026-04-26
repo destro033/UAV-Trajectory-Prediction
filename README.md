@@ -17,6 +17,7 @@ To use the models, you will need these libraries:
 - `scikit-learn`
 - `matplotlib`
 - `joblib`
+
 If necessary, you can install them using pip:
 ```bash
 pip install torch pandas numpy matplotlib scikit-learn joblib
