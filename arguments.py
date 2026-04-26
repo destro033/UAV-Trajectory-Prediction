@@ -8,8 +8,6 @@ class Config:
     e_layers = 2    #how many c-mamba blocks
     d_ff = 256      #dimension of linear projection in Mamba
     dropout = 0.1   #dropout in C-Mamba block
-    patch_len = 16  #length of each patch 
-    stride = 8      #window for patching
     head_dropout = 0.0 #dropout before the final linear projection layer 
     bias = True  #default
     avg = True   #default
