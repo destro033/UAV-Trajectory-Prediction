@@ -22,14 +22,35 @@ pip install torch pandas numpy matplotlib scikit-learn joblib
 ```
 
 ## Training Procedure
+## Training Procedure
 
-In order to train the models, download as zip folder all the codes and store them in single folder.
-For C-Mamba training you can change any parameters (if needed) from arguments.py.
-For PatchTST training you can change any parameters from arguments_patchtst.py. In these files hyperparameters of each model with their descriptions is provided.
-After changes save these files and run train.py for C-Mamba or run train_patchtst.py for PatchTST.
-Make sure that the dataset from [here](https://zenodo.org/records/15089283) is downloaded as CSV format in the same folder as the other codes from the zip. After training, the code will produce the files: mamba_best_model.pth and scaler_mamba.pkl for C-Mamba, and patchtst_best_model.pth and scaler_patchtst.pkl for PatchTST, these files contain the best weights and scaler for these models to be used in testing
-.Also, the code will produce CSV file containing the train/val losses for each epoch. These files contain the best weights and scaler for these models to be used in testing
-Its important to note that if you plan to train the model you will have to first delete mamba_best_model.pth, scaler_mamba.pkl, patchtst_best_model.pth and scaler_patchtst.pkl, as these files are going to be created after the training procedure again.
+1. Download the repository and extract all files into a single folder.
+
+2. Configure model hyperparameters:
+   - For **C-Mamba**, edit `arguments.py`
+   - For **PatchTST**, edit `arguments_patchtst.py`
+
+3. Download the dataset from https://zenodo.org/records/15089283 and place the CSV file in the same folder as the code.
+
+4. Run the training scripts:
+   - For **C-Mamba**:
+     ```bash
+     python train.py
+     ```
+   - For **PatchTST**:
+     ```bash
+     python train_patchtst.py
+     ```
+
+5. After training, the following files will be generated:
+   - `mamba_best_model.pth`, `scaler_mamba.pkl`
+   - `patchtst_best_model.pth`, `scaler_patchtst.pkl`
+
+   These files contain the trained model weights and corresponding data scalers.
+
+6. CSV files containing training and validation losses for each epoch will also be generated.
+
+7. If you want to retrain the models, delete any existing `.pth` and `.pkl` files beforehand, as they will be overwritten during training.
 
 ## Testing Procedure and Plotting
 
