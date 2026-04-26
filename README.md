@@ -26,7 +26,7 @@ pip install torch pandas numpy matplotlib scikit-learn joblib
 ## Training Procedure
 
 In order to train the models, download as zip folder all the codes and store them in single folder.
-For C-Mamba training you can change any parameters (if needed) from arguments.py
+For C-Mamba training you can change any parameters (if needed) from arguments.py.
 For PatchTST training you can change any parameters from arguments_patchtst.py. In these files hyperparameters of each model with their descriptions is provided.
 After changes save these files and run train.py for C-Mamba or run train_patchtst.py for PatchTST.
 Make sure that the dataset on here is downloaded as CSV in the same folder as the other codes. After training, the code will produce the files: mamba_best_model.pth and scaler_mamba.pkl for C-Mamba, and patchtst_best_model.pth and scaler_patchtst.pkl for PatchTST, these files contain the best weights and scaler for these models to be used in testing
