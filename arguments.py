@@ -6,7 +6,7 @@ class Config:
     d_model = 128   #dimension of the model (patch embedding)
     patch_num = 12  #how many patches to create
     e_layers = 2    #how many c-mamba blocks
-    d_ff = 256      #inner dimension of the model 
+    d_ff = 256      #dimension of linear projection in Mamba
     dropout = 0.1   #dropout in C-Mamba block
     patch_len = 16  #length of each patch 
     stride = 8      #window for patching
@@ -32,6 +32,6 @@ class Config:
     #training settings 
     batch_size = 32
     epochs = 200
-    patience = 20
+    patience = 20 #how many epochs without improvment in validation loss to wait
     lr = 0.0001   #learning rate
     
