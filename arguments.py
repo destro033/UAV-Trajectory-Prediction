@@ -3,14 +3,14 @@ class Config:
     seq_len = 96    #input length (look back window)
     pred_len = 96   #forecast horizon length
     enc_in = 3      #number of variables in the data
-    d_model = 128   #dimension of the model 
+    d_model = 128   #dimension of the model (patch embedding)
     patch_num = 12  #how many patches to create
     e_layers = 2    #how many c-mamba blocks
     d_ff = 256      #inner dimension of the model 
-    dropout = 0.1 
+    dropout = 0.1   #dropout in C-Mamba block
     patch_len = 16  #length of each patch 
     stride = 8      #window for patching
-    head_dropout = 0.0 #disable neurons
+    head_dropout = 0.0 #dropout before the final linear projection layer 
     bias = True
     avg = True
     max = True
@@ -23,10 +23,10 @@ class Config:
     dt_scale = 1.0
     d_state = 16    #dimension of state space
     c_out = 3       #have to be the same as enc_in
-    reduction = 2
+    reduction = 2   #reduction rate (expansion rate in paper) for GDD-MLP
     gddmlp = True   #whether or not to use channel attention
     pscan = True    #whether or not to use parallel scanning for faster computation
-    sigma = 0.1     #value of sigma
+    sigma = 0.1     #standard deviation for Channel Mixup
     use_channel_mixup = True #whether or not to use channel mixup
 
     #training settings 
