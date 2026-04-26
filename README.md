@@ -65,16 +65,18 @@ The testing procedure is as follows:
      ```bash
      python test.py
      ```
-     → produces `cmamba_results.npz`
+     This will produce `cmamba_results.npz`
 
    - For **PatchTST**:
      ```bash
      python test_patchtst.py
      ```
-     → produces `patchtst_results.npz`
+     This will produce `patchtst_results.npz`
 
 5. Both `.npz` files will be automatically saved in the working directory.
 
 6. Run the plotting script:
    ```bash
    python plot_results.py
+
+**Note:** Both .npz files are needed before running `plot_results.py`   
