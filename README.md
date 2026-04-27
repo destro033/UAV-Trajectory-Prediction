@@ -83,3 +83,5 @@ The testing procedure is as follows:
    python plot_results.py
 
 **Note:** Both .npz files are needed before running `plot_results.py`   
+
+The results are in `results` folder.
