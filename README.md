@@ -82,6 +82,7 @@ The testing procedure is as follows:
    ```bash
    python plot_results.py
 
-**Note:** Both .npz files are needed before running `plot_results.py`   
+**Note:** Both .npz files are needed before running `plot_results.py`  
+After running the code, pdf files will be created with the plots.
 
-The results are in `results` folder.
+The results from this work are in `results` folder.
