@@ -45,6 +45,40 @@ ade_b = [
 euclidean_a = a["euclidean_errors"]   
 euclidean_b = b["euclidean_errors"]
 
+mae_step_a = a["mae_per_forecast_step"]
+mae_step_b = b["mae_per_forecast_step"]
+
+mse_step_a = a["mse_per_forecast_step"]
+mse_step_b = b["mse_per_forecast_step"]
+
+steps = np.arange(1, len(mae_step_a) + 1)
+
+plt.figure(figsize=(8, 4))
+plt.plot(steps, mae_step_a, label=MODEL_A_NAME)
+plt.plot(steps, mae_step_b, label=MODEL_B_NAME)
+
+plt.xlabel("Forecast Step")
+plt.ylabel("Combined XYZ MAE (m)")
+plt.title("Combined XYZ MAE Across Forecast Horizon")
+plt.legend()
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.savefig("mae_forecast_step_curve.pdf", bbox_inches="tight")
+
+steps = np.arange(1, len(mse_step_a) + 1)
+
+plt.figure(figsize=(8, 4))
+plt.plot(steps, mse_step_a, label=MODEL_A_NAME)
+plt.plot(steps, mse_step_b, label=MODEL_B_NAME)
+
+plt.xlabel("Forecast Step")
+plt.ylabel("Combined XYZ MSE (m²)")
+plt.title("Combined XYZ MSE Across Forecast Horizon")
+plt.legend()
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.savefig("mse_forecast_step_curve.pdf", bbox_inches="tight")
+
 def plot_cdf_selected_steps(
     euclidean_a,
     euclidean_b,
