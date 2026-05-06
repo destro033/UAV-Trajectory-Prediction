@@ -109,6 +109,21 @@ def evaluate_flights_full(
     # Euclidean error for last forecast step
     ade_last_step = euclidean_errors[:, -1].mean()
 
+    # CDF of Euclidean error for each forecast step
+    cdf_x = []
+    cdf_y = []
+
+    for step in range(forecast_length):
+        errors_step = euclidean_errors[:, step]
+        errors_sorted = np.sort(errors_step)
+        cdf_values = np.arange(1, len(errors_sorted) + 1) / len(errors_sorted)
+
+        cdf_x.append(errors_sorted)
+        cdf_y.append(cdf_values)
+
+    cdf_x = np.array(cdf_x, dtype=object)
+    cdf_y = np.array(cdf_y, dtype=object)
+
     # ADE over all forecast steps
     ade_96 = euclidean_errors.mean()
 
@@ -124,6 +139,8 @@ def evaluate_flights_full(
         ade_96=ade_96,
         error_per_forecast_step=error_per_forecast_step,
         euclidean_errors=euclidean_errors,
+        cdf_x=cdf_x,
+        cdf_y=cdf_y,
         preds=y_pred_real,
         gt=y_true_real,
         disp_meters=disp_meters,
