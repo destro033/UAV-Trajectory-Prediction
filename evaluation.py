@@ -97,6 +97,14 @@ def evaluate_flights_full(
     disp_meters[:, :, 1] *= 111320
     # Z stays unchanged as it is in meters
 
+    # Combined XYZ MAE for each forecast step
+    # Mean absolute error over samples and xyz variables
+    mae_per_forecast_step = np.abs(disp_meters).mean(axis=(0, 2))
+
+    # Combined XYZ MSE for each forecast step
+    # Mean squared error over samples and xyz variables
+    mse_per_forecast_step = (disp_meters ** 2).mean(axis=(0, 2))
+
     # MAE for X, Y, Z in meters
     mae_xyz = np.abs(disp_meters).mean(axis=(0, 1))
 
@@ -134,6 +142,8 @@ def evaluate_flights_full(
     np.savez(
         save_path,
         mae_xyz=mae_xyz,
+        mae_per_forecast_step=mae_per_forecast_step,
+        mse_per_forecast_step=mse_per_forecast_step,
         ade_first_step=ade_first_step,
         ade_last_step=ade_last_step,
         ade_96=ade_96,
