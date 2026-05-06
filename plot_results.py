@@ -42,6 +42,57 @@ ade_b = [
     b["ade_last_step"]
 ]
 
+euclidean_a = a["euclidean_errors"]   
+euclidean_b = b["euclidean_errors"]
+
+def plot_cdf_selected_steps(
+    euclidean_a,
+    euclidean_b,
+    model_a_name,
+    model_b_name,
+    steps_to_plot=[0, 23, 47, 71, 95],
+    save_path="cdf_selected_forecast_steps.pdf"
+):
+    plt.figure(figsize=(8, 5))
+
+    for step in steps_to_plot:
+        errors_a = np.sort(euclidean_a[:, step])
+        cdf_a = np.arange(1, len(errors_a) + 1) / len(errors_a)
+
+        errors_b = np.sort(euclidean_b[:, step])
+        cdf_b = np.arange(1, len(errors_b) + 1) / len(errors_b)
+
+        plt.plot(
+            errors_a,
+            cdf_a,
+            linestyle="-",
+            label=f"{model_a_name} Step {step + 1}"
+        )
+
+        plt.plot(
+            errors_b,
+            cdf_b,
+            linestyle="--",
+            label=f"{model_b_name} Step {step + 1}"
+        )
+
+    plt.xlabel("Euclidean Error (m)")
+    plt.ylabel("CDF")
+    plt.title("CDF of Euclidean Error at Selected Forecast Steps")
+    plt.grid(alpha=0.3)
+    plt.legend(fontsize=8)
+    plt.tight_layout()
+    plt.savefig(save_path, bbox_inches="tight")
+
+plot_cdf_selected_steps(
+    euclidean_a=euclidean_a,
+    euclidean_b=euclidean_b,
+    model_a_name=MODEL_A_NAME,
+    model_b_name=MODEL_B_NAME,
+    steps_to_plot=[0, 23, 47, 71, 95],
+    save_path="cdf_selected_forecast_steps.pdf"
+)
+
 
 # Euclidean errors
 labels = ["First", "Average (ADE)", "Final (FDE)"]
