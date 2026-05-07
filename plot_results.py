@@ -51,6 +51,103 @@ mae_step_b = b["mae_per_forecast_step"]
 mse_step_a = a["mse_per_forecast_step"]
 mse_step_b = b["mse_per_forecast_step"]
 
+# 90th percentile Euclidean error for each forecast step
+p90_a = np.percentile(euclidean_a, 90, axis=0)
+p90_b = np.percentile(euclidean_b, 90, axis=0)
+
+# Print selected forecast steps
+steps_to_print = [0, 23, 47, 71, 95]
+
+print("\n=== 90th Percentile Euclidean Error ===")
+for step in steps_to_print:
+    print(
+        f"Step {step + 1}: "
+        f"{MODEL_A_NAME} = {p90_a[step]:.2f} m | "
+        f"{MODEL_B_NAME} = {p90_b[step]:.2f} m"
+    )
+
+# =========================
+# MAE: First, Average, Last
+# =========================
+mae_a = [
+    mae_step_a[0],
+    mae_step_a.mean(),
+    mae_step_a[-1]
+]
+
+mae_b = [
+    mae_step_b[0],
+    mae_step_b.mean(),
+    mae_step_b[-1]
+]
+
+labels = ["First", "Average", "Last"]
+x = np.arange(len(labels))
+width = 0.35
+
+plt.figure(figsize=(7, 4))
+
+bars_a = plt.bar(x - width / 2, mae_a, width, label=MODEL_A_NAME)
+bars_b = plt.bar(x + width / 2, mae_b, width, label=MODEL_B_NAME)
+
+def add_bar_labels(bars):
+    for bar in bars:
+        height = bar.get_height()
+        plt.text(
+            bar.get_x() + bar.get_width() / 2,
+            height,
+            f"{height:.2f}",
+            ha="center",
+            va="bottom",
+            fontsize=9
+        )
+
+add_bar_labels(bars_a)
+add_bar_labels(bars_b)
+
+plt.xticks(x, labels)
+plt.ylabel("Combined XYZ MAE (m)")
+plt.title("MAE Comparison: First Step, Average, and Last Step")
+plt.legend()
+plt.grid(axis="y", alpha=0.3)
+plt.tight_layout()
+plt.savefig("mae_first_avg_last_comparison.pdf", bbox_inches="tight")
+
+# =========================
+# MSE: First, Average, Last
+# =========================
+mse_a = [
+    mse_step_a[0],
+    mse_step_a.mean(),
+    mse_step_a[-1]
+]
+
+mse_b = [
+    mse_step_b[0],
+    mse_step_b.mean(),
+    mse_step_b[-1]
+]
+
+labels = ["First", "Average", "Last"]
+x = np.arange(len(labels))
+width = 0.35
+
+plt.figure(figsize=(7, 4))
+
+bars_a = plt.bar(x - width / 2, mse_a, width, label=MODEL_A_NAME)
+bars_b = plt.bar(x + width / 2, mse_b, width, label=MODEL_B_NAME)
+
+add_bar_labels(bars_a)
+add_bar_labels(bars_b)
+
+plt.xticks(x, labels)
+plt.ylabel("Combined XYZ MSE (m²)")
+plt.title("MSE Comparison: First Step, Average, and Last Step")
+plt.legend()
+plt.grid(axis="y", alpha=0.3)
+plt.tight_layout()
+plt.savefig("mse_first_avg_last_comparison.pdf", bbox_inches="tight")
+
 steps = np.arange(1, len(mae_step_a) + 1)
 
 plt.figure(figsize=(8, 4))
